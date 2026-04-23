@@ -3,7 +3,11 @@ import json
 import os
 import glob
 import csv
-from anthropic import Anthropic
+import google.generativeai as genai
+
+# 기존 client = Anthropic() 삭제하고 아래로 교체
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 # ── 페이지 설정 ──────────────────────────────────────────
 st.set_page_config(
@@ -166,15 +170,36 @@ def generate_quiz(p, quiz_type):
 }}"""
     }
 
-    response = client.messages.create(
-        model="claude-opus-4-5",
-        max_tokens=2000,
-        messages=[{"role": "user", "content": prompts[quiz_type]}]
-    )
-    text = response.content[0].text.strip()
+    response = model.generate_content(prompts[quiz_type])
+    text = response.text.strip()
     text = text.replace("```json", "").replace("```", "").strip()
     return json.loads(text)
 
+
+def get_feedback(questions, user_answers, quiz_label):
+    results = []
+    for q in questions:
+        ua = user_answers.get(str(q['id']), "미응답")
+        correct = ua == q['answer']
+        results.append(
+            f"문제{q['id']}: {'✅정답' if correct else '❌오답'} "
+            f"(선택:{ua}, 정답:{q['answer']})\n해설: {q['explanation']}"
+        )
+
+    prompt = f"""학생이 '{quiz_label}' 퀴즈를 풀었습니다. 결과를 바탕으로 한국어로 피드백을 작성해주세요.
+
+결과:
+{chr(10).join(results)}
+
+아래 구조로 작성해주세요:
+- 첫 줄: 점수 평가 (칭찬/격려 포함)
+- 틀린 문제의 핵심 포인트 1~2줄
+- 마무리 학습 조언 1줄
+전체 150자 내외로 간결하게."""
+
+    response = model.generate_content(prompt)
+    return response.text.strip()
+    
 # ── 4. AI 피드백 ──────────────────────────────────────────
 def get_feedback(questions, user_answers, quiz_label):
     results = []
