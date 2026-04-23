@@ -7,7 +7,19 @@ import google.generativeai as genai
 
 # ── AI 설정 ──────────────────────────────────────────────
 genai.configure(api_key=st.secrets.get("GOOGLE_API_KEY", ""))
+# 기존
 model = genai.GenerativeModel("gemini-2.0-flash")
+
+# 변경
+from google.generativeai.types import GenerationConfig
+
+model = genai.GenerativeModel(
+    model_name="gemini-2.0-flash",
+    generation_config=GenerationConfig(
+        max_output_tokens=600,   # 토큰 제한으로 속도 향상
+        temperature=0.7,
+    )
+)
 
 # ── 페이지 설정 ──────────────────────────────────────────
 st.set_page_config(
@@ -96,77 +108,32 @@ def init_state():
 # ── 3. AI 퀴즈 생성 ───────────────────────────────────────
 def generate_quiz(p, quiz_type):
     prompts = {
-        "vocabulary": f"""다음 영어 지문과 어휘를 바탕으로 단어 퀴즈 5문제를 만들어주세요.
+        "vocabulary": f"""아래 어휘에서 3개만 골라 단어 퀴즈를 만드세요.
 
-지문:
-{p['passage']}
+어휘: {p['vocabulary']}
 
-어휘 목록:
-{p['vocabulary']}
+JSON만 출력 (다른 텍스트 없이):
+{{"questions":[{{"id":1,"word":"단어","question":"뜻으로 적절한 것은?","options":["①","②","③","④","⑤"],"answer":"1","explanation":"설명"}}]}}""",
 
-반드시 아래 JSON 형식만 출력하세요 (다른 텍스트 없이):
-{{
-  "questions": [
-    {{
-      "id": 1,
-      "word": "영어단어",
-      "question": "다음 단어의 뜻으로 가장 적절한 것은?",
-      "options": ["①뜻1", "②뜻2", "③뜻3", "④뜻4", "⑤뜻5"],
-      "answer": "1",
-      "explanation": "word는 '뜻' 이라는 의미입니다."
-    }}
-  ]
-}}""",
+        "comprehension": f"""지문을 읽고 수능 스타일 문제 2개를 만드세요. (주제파악 1개, 빈칸추론 1개)
 
-        "comprehension": f"""다음 영어 지문을 바탕으로 수능 스타일 독해 문제 3문제를 만들어주세요.
-주제 파악, 빈칸 추론, 요지 파악 유형을 각각 1개씩 포함해주세요.
+지문: {p['passage'][:300]}
 
-지문:
-{p['passage']}
+JSON만 출력:
+{{"questions":[{{"id":1,"type":"주제파악","question":"문제","options":["①","②","③","④","⑤"],"answer":"1","explanation":"해설"}}]}}""",
 
-반드시 아래 JSON 형식만 출력하세요 (다른 텍스트 없이):
-{{
-  "questions": [
-    {{
-      "id": 1,
-      "type": "주제 파악",
-      "question": "문제 내용",
-      "options": ["①보기1", "②보기2", "③보기3", "④보기4", "⑤보기5"],
-      "answer": "2",
-      "explanation": "한국어로 해설"
-    }}
-  ]
-}}""",
+        "grammar": f"""지문에서 문법 문제 2개를 만드세요.
 
-        "grammar": f"""다음 영어 지문의 문법 사항을 바탕으로 수능 스타일 문법 문제 3문제를 만들어주세요.
+지문: {p['passage'][:300]}
+문법포인트: {p['grammar'][:200]}
 
-지문:
-{p['passage']}
-
-문법 포인트:
-{p['grammar']}
-
-반드시 아래 JSON 형식만 출력하세요 (다른 텍스트 없이):
-{{
-  "questions": [
-    {{
-      "id": 1,
-      "type": "어법 판단",
-      "sentence": "문제 문장 (**밑줄부분** 표시)",
-      "question": "밑줄 친 부분의 어법이 옳은 것은?",
-      "options": ["①보기1", "②보기2", "③보기3", "④보기4", "⑤보기5"],
-      "answer": "3",
-      "explanation": "한국어로 문법 설명 포함 해설"
-    }}
-  ]
-}}"""
+JSON만 출력:
+{{"questions":[{{"id":1,"type":"어법판단","sentence":"문장","question":"문제","options":["①","②","③","④","⑤"],"answer":"1","explanation":"해설"}}]}}"""
     }
 
     response = model.generate_content(prompts[quiz_type])
-    text = response.text.strip()
-    text = text.replace("```json", "").replace("```", "").strip()
+    text = response.text.strip().replace("```json","").replace("```","").strip()
     return json.loads(text)
-
 # ── 4. AI 피드백 ──────────────────────────────────────────
 def get_feedback(questions, user_answers, quiz_label):
     results = []
