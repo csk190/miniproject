@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "category": "의학, 건강, 영양, 식품",
+    "passage": "Honey can be eaten by itself or mixed with other ingredients. Natural or pure honey has had no additives, preservatives or synthetic ingredients added. Also ① referred to as ‘undiluted’, it is usually more expensive than diluted honeys. Natural honey can also be called ‘blended honey’, ② which honeys from various sources are blended together — not by the bees, but by human processors and distributors in stages after the honey has been collected.",
+    "vocabulary": "ingredient (특히 요리 등의) 재료\nadditive 첨가물\npreservative 방부제\nsynthetic 합성의\nblended 혼합된\nuniform 균일한",
+    "question": "다음 글의 밑줄 친 부분 중, 어법상 틀린 것은?\n정답: ②",
+    "grammar": "■ [Also referred to as ‘undiluted’], it is usually more expensive than diluted honeys.\n[ ]는 문장의 주어인 it을 부가적으로 설명하는 분사구문이다."
+  },
+  {
+    "id": 2,
+    "category": "정치, 경제, 사회, 법",
+    "passage": "When gathering the preferences of multiple agents into one collective choice, it is easily seen that certain cases ______. For example, if there are two alternatives, a and b, and two agents such that one prefers a and the other one b, there is no deterministic way of selecting a single alternative without violating one of two basic fairness conditions known as anonymity and neutrality.",
+    "vocabulary": "preference 선호(도)\nmultiple 다수[복수]의\ncollective 집단적인, 공동의\nalternative 대안\nviolate 위반하다, 어기다\nanonymity 익명성\nimpartiality 공정, 공평",
+    "question": "다음 빈칸에 들어갈 말로 가장 적절한 것은?\n정답: ① call for randomization or other means of tiebreaking",
+    "grammar": "■ For example, [if there are two alternatives, a and b, and two agents such that one prefers a and the other one b], there is no deterministic way of selecting a single alternative [without violating one of two basic fairness conditions {known as anonymity and neutrality}]."
+  },
+  {
+    "id": 3,
+    "category": "심리, 대인 관계",
+    "passage": "One reason that people participate in social media is because it builds social relations. We increase our social capital when we successfully engage in social media. Social capital describes the networks of relationships we have that are built on mutuality and sharing of identity, understanding, norms and values.",
+    "vocabulary": "social capital 사회적 자본\nmutuality 상호성\nidentity 정체성\nnorms 규범\ntie 유대\njob lead 일자리 정보",
+    "question": "다음 글의 요지로 가장 적절한 것은?\n정답: ① 소셜 미디어를 통한 관계망의 확장은 중요한 사회적 자본이 된다.",
+    "grammar": "■ One reason [that people participate in social media] is because it builds social relations.\n[ ]는 One reason을 수식하는 관계절이고, is는 술어 동사이다."
+  },
+  {
+    "id": 4,
+    "category": "컴퓨터, 인터넷, 정보, 미디어, 교통",
+    "passage": "Information and meaning are, clearly, not the same thing. The former refers to uninterpreted data or sensory states whose probability in a certain situation can be easily measured; the latter refers to the interpretation of the data or sensory states, including the special kinds of nuances and values that the information entails, or is intended to have, in the given situation.",
+    "vocabulary": "refer to ~을 가리키다, ~을 의미하다\nsensory 감각의\nprobability 확률\nentail 수반하다\nstatement 진술(문)\nin a row 연속으로",
+    "question": "다음 글의 요지로 가장 적절한 것은?\n정답: ① 우리는 정보를 해석함으로써 의미를 만들어 낸다.",
+    "grammar": "■ The former refers to uninterpreted data or sensory states [whose probability in a certain situation can be easily measured]; the latter refers to the interpretation of the data or sensory states..."
+  },
+  {
+    "id": 5,
+    "category": "언어, 문학, 예술",
+    "passage": "In most fiction, characters’ lives are limited to the individual work. Readers may disagree on the characteristics and traits of fictional figures, and in drama there is room for different interpretations of characters. However, it is less common for characters in literary fiction to reappear in subsequent works than in genre fiction, where series featuring the same central characters are common.",
+    "vocabulary": "fiction 소설\ncharacteristic 특징, 성격\ntrait 특성\nsubsequent 후속의, 그다음의\npronounced 확연한",
+    "question": "다음 글의 내용을 한 문장으로 요약하고자 한다. 빈칸 (A), (B)에 들어갈 말로 가장 적절한 것은?\n정답: ④ feature …… transformation",
+    "grammar": "■ However, it is less common [for characters in literary fiction to reappear in subsequent works] than in genre fiction, [where series {featuring the same central characters} are common]."
+  },
+  {
+    "id": 6,
+    "category": "교육, 학교, 진로",
+    "passage": "The purpose of class discussions is to encourage you to be an active participant, not a passive recorder. Much of the emphasis in a discussion is on getting students involved in thinking, reacting, and responding. These are important intellectual activities in the learning process, for through them you are supposed to discover and express your opinions.",
+    "vocabulary": "passive 수동적인\nadmittedly 인정하건대\nalert 정신이 초롱초롱한\nemphasis 강조점, 강조\ninvaluable 매우 귀중한\ntake notes 메모하다, 필기하다",
+    "question": "다음 글의 주제로 가장 적절한 것은?\n정답: ③ significance of note taking for active engagement in discussion",
+    "grammar": "■ Admittedly, it is considerably more difficult [to take notes from discussions than from lectures], [for, unlike lectures, discussions tend to be {disorganized} and {difficult to follow}]."
+  },
+  {
+    "id": 7,
+    "category": "스포츠, 레저, 취미, 여행",
+    "passage": "The shoreline was known for having the best fishing spots on the lake. Jessie was sitting at one of those spots, but her fishing line still hadn’t moved an inch. With a deep sigh, Jessie pulled out the line and cast it back into the water. Her dream of catching a big fish was fading.",
+    "vocabulary": "shoreline 호숫가, 해안가\nfishing line 낚싯줄\nsigh 한숨\ncast 던지다\nfade (점점) 사라지다\ntense 팽팽한, 긴장된",
+    "question": "다음 글에 드러난 Jessie의 심경 변화로 가장 적절한 것은?\n정답: ① disappointed → thrilled",
+    "grammar": "■ With a deep sigh, Jessie [pulled out the line] and [cast it back into the water].\n두 개의 [ ]는 and로 연결되어 문장의 술어 역할을 한다."
+  },
+  {
+    "id": 8,
+    "category": "물리, 화학, 생명과학, 지구과학",
+    "passage": "A good example of chaos is the magnetic pendulum sold as an executive toy. It has four magnets arranged in a square at the base and a pendulum that swings back and forth between them. In order to produce chaos, the iteration has to be within what is called a nonlinear system.",
+    "vocabulary": "magnetic pendulum 자기 진자\nexecutive 사무실(용)의\nback and forth 앞뒤로\nfashion 방식\nnonlinear 비선형의",
+    "question": "주어진 글 다음에 이어질 글의 순서로 가장 적절한 것은?\n정답: ① (A) － (C) － (B)",
+    "grammar": "■ It has four magnets [arranged in a square at the base] and a pendulum [that swings back and forth between them].\n첫 번째 [ ]는 four magnets를 수식하는 분사구이고, 두 번째 [ ]는 a pendulum을 수식하는 관계절이다."
+  },
+  {
+    "id": 9,
+    "category": "환경, 자원, 재활용",
+    "passage": "What is soft-path river engineering? One way to visualize its spirit is to liken it to a footpath in the forest. Suppose a tree falls across a footpath. A soft-path response would be simply to redirect the trail around the fallen tree. A more interventionist response would be to ① remove the tree and restore the original route.",
+    "vocabulary": "visualize 시각화하다\ntrail 오솔길\nliken 비유하다\nfootpath 오솔길\ninterventionist 개입주의적인\nrestore 복구하다",
+    "question": "다음 글의 밑줄 친 부분 중, 문맥상 낱말의 쓰임이 적절하지 않은 것은?\n정답: ⑤ insignificant",
+    "grammar": "■ The true high-modernist step would, of course, be [to create a superhighway {that removes the landscape and bulldozes straight through all obstacles in the topography}]."
+  },
+  {
+    "id": 10,
+    "category": "철학, 종교, 역사, 풍습, 지리",
+    "passage": "One word is inextricably associated with geography: where. That is because geography starts from the premise that it matters where something takes place on Earth’s surface. The key questions are not simply “where” questions, though; they are “why there” and “so what” questions.",
+    "vocabulary": "spatial 공간의, 공간적인\narrangement 배열\nvariation 차이\nappreciation 이해\nawareness 인식",
+    "question": "다음 빈칸에 들어갈 말로 가장 적절한 것은?\n정답: ② how phenomena are arranged on Earth’s surface",
+    "grammar": "■ That is because geography starts from the premise [that it matters {where something takes place on Earth’s surface}]."
+  }
+]
