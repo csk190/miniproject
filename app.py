@@ -184,22 +184,25 @@ def generate_quiz(p, quiz_type):
   ]
 }}"""
 
-    try:
-        response = model.generate_content(prompt)
+   try:
+        # Gemini API에게 JSON 형식으로만 답변하도록 강제 (문자열 자르기 불필요)
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.GenerationConfig(
+                response_mime_type="application/json",
+                temperature=0.7
+            )
+        )
+        
         text = response.text.strip()
-        # JSON 블록 추출
-        if "```" in text:
-            text = text.split("```")[-2] if "```" in text else text
-            text = text.replace("json", "", 1).strip()
-        text = text.strip()
-        # 중괄호 시작 위치부터 파싱
-        start = text.find("{")
-        end   = text.rfind("}") + 1
-        if start == -1 or end == 0:
-            raise ValueError(f"JSON을 찾을 수 없습니다.\n응답 내용: {text[:200]}")
-        return json.loads(text[start:end])
+        
+        # 이미 완벽한 JSON 문자열로 반환되므로 바로 파싱
+        return json.loads(text)
+        
     except json.JSONDecodeError as e:
         raise ValueError(f"JSON 파싱 실패: {e}\n응답 내용: {text[:300]}")
+    except Exception as e:
+        raise ValueError(f"문제 생성 오류: {e}")
 
 # ── 4. AI 피드백 ──────────────────────────────────────────
 def get_feedback(questions, user_answers, quiz_label):
