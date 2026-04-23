@@ -7,7 +7,14 @@ import google.generativeai as genai
 from google.generativeai.types import GenerationConfig
 
 # ── AI 설정 ──────────────────────────────────────────────
-genai.configure(api_key=st.secrets.get("GOOGLE_API_KEY", ""))
+api_key = st.secrets.get("GOOGLE_API_KEY", "")
+
+if not api_key:
+    st.error("🔑 GOOGLE_API_KEY가 설정되지 않았습니다.")
+    st.info("Streamlit Cloud → 앱 Settings → Secrets 에서 아래를 추가하세요:\n\nGOOGLE_API_KEY = \"AIzaSy...\"")
+    st.stop()
+
+genai.configure(api_key=api_key)
 model = genai.GenerativeModel(
     model_name="gemini-2.0-flash",
     generation_config=GenerationConfig(
