@@ -372,6 +372,21 @@ def show_detail(passages):
     with tab4:
         render_quiz_tab(p, "grammar", "문법 문제")
 
+def debug_csv():
+    import glob
+    st.sidebar.markdown("### 🔧 디버그")
+    
+    files = glob.glob("data/*.csv")
+    st.sidebar.write(f"찾은 파일 수: {len(files)}")
+    st.sidebar.write(files)
+    
+    if files:
+        import csv
+        with open(files[0], "r", encoding="utf-8-sig") as f:
+            raw = f.read(300)
+        st.sidebar.text("파일 앞부분 (raw):")
+        st.sidebar.code(repr(raw))  # 탭인지 쉼표인지 확인
+
 # ── 7. 목록 페이지 ────────────────────────────────────────
 def show_list(passages):
     st.markdown("## 📚 수능특강 AI 학습")
@@ -408,6 +423,9 @@ def show_list(passages):
 
 # ── 8. 메인 ──────────────────────────────────────────────
 def main():
+    debug_csv()   # ← 추가
+    init_state()
+    ...
     init_state()
     data = load_passages()
 
