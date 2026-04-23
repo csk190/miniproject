@@ -213,9 +213,7 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
 .layout {{ display:flex; gap:14px; height:630px; }}
 
 /* ── 왼쪽 패널 ─────────────────────── */
-.left-panel {{
-  flex:1.3; display:flex; flex-direction:column; gap:8px; min-width:0;
-}}
+.left-panel {{ flex:1.3; display:flex; flex-direction:column; gap:8px; min-width:0; }}
 .tts-controls {{
   background:#f1f5f9; border-radius:10px; padding:8px 12px;
   display:flex; align-items:center; gap:7px; flex-wrap:wrap; flex-shrink:0;
@@ -258,9 +256,7 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
 }}
 
 /* ── 오른쪽 패널 ────────────────────── */
-.right-panel {{
-  width:272px; display:flex; flex-direction:column; gap:10px; flex-shrink:0;
-}}
+.right-panel {{ width:272px; display:flex; flex-direction:column; gap:10px; flex-shrink:0; }}
 
 /* 단어 정보 */
 .word-panel {{
@@ -343,7 +339,6 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
 <body>
 <div class="layout">
 
-<!-- ── 왼쪽: 지문 + TTS ────────────────────── -->
 <div class="left-panel">
   <div class="tts-controls">
     <button class="ctrl-btn" id="btn-prev"  onclick="moveSent(-1)">⏮</button>
@@ -366,10 +361,7 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
   <div id="status-bar">단어를 클릭하면 의미를 확인할 수 있어요 | 문장 클릭 → 해당 문장부터 재생</div>
 </div>
 
-<!-- ── 오른쪽: 단어 정보 + 단어장 ─────────── -->
 <div class="right-panel">
-
-  <!-- 단어 정보 -->
   <div class="word-panel">
     <div class="panel-label">📖 단어 정보</div>
     <div id="word-content">
@@ -378,8 +370,6 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
       </div>
     </div>
   </div>
-
-  <!-- 단어장 -->
   <div class="vocab-panel">
     <div class="vocab-header">
       <span class="vocab-title">📚 단어장</span>
@@ -390,303 +380,329 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
       <div class="empty-vocab">아직 추가된 단어가 없어요.<br>단어를 클릭해 추가해 보세요!</div>
     </div>
   </div>
-
 </div>
 </div>
 
 <script>
+// 1. 전역 에러 핸들러: 조용한 실패(Silent Fail)를 방지하고 화면에 원인 출력
+window.onerror = function(msg, url, line, col, error) {{
+    var box = document.getElementById('passage-box');
+    if (box) box.innerHTML = '<div style="color:#ef4444; padding:16px; background:#fee2e2; border-radius:8px;">⚠️ <b>스크립트 오류가 발생했습니다.</b><br>' + msg + '</div>';
+    return false;
+}};
+
 const SKEY = 'ai_vocab_{pid}';
 const rawText = {passage_json};
 let vocab = [];
-try {{ vocab = JSON.parse(localStorage.getItem(SKEY) || '[]'); }} catch(e) {{}}
+
+// 2. iframe 샌드박스에서 localStorage 접근이 차단될 경우를 완벽 방어
+try {{
+    vocab = JSON.parse(localStorage.getItem(SKEY) || '[]');
+}} catch(e) {{
+    console.warn("로컬 스토리지 접근이 제한된 환경입니다.", e);
+}}
+
 let currentWord = null;
 let currentAudio = null;
 let currentIdx = 0, isPlaying = false, isPaused = false;
 
-// ── 문장 분리 (lookbehind 미사용 — 브라우저 호환) ────
 function splitSentences(text) {{
-  // 약어 보호
-  var abbr = text
-    .replace(/\\b(Mr|Mrs|Ms|Dr|St|Prof|Jr|Sr|vs|etc)\\./g, '$1<DOT>')
-    .replace(/\\b([A-Z])\\.([A-Z])\\./g, '$1<DOT>$2<DOT>');
+    var abbr = text
+      .replace(new RegExp('\\\\b(Mr|Mrs|Ms|Dr|St|Prof|Jr|Sr|vs|etc)\\\\.', 'g'), '$1<DOT>')
+      .replace(new RegExp('\\\\b([A-Z])\\\\.([A-Z])\\\\.', 'g'), '$1<DOT>$2<DOT>');
 
-  // 단어 단위로 분리해서 문장 경계 탐지 (lookbehind 없이)
-  var words = abbr.split(' ');
-  var sentences = [];
-  var cur = [];
+    var words = abbr.split(' ');
+    var sentences = [];
+    var cur = [];
 
-  for (var i = 0; i < words.length; i++) {{
-    cur.push(words[i]);
-    var w = words[i];
-    // 문장 종결 조건: 단어가 .!? 로 끝나고 다음 단어가 대문자로 시작
-    if (/[.!?]["'\\)]*$/.test(w)) {{
-      var next = words[i + 1] || '';
-      if (next === '' || /^[A-Z"'\\(]/.test(next)) {{
-        sentences.push(cur.join(' ').replace(/<DOT>/g, '.').trim());
-        cur = [];
+    for (var i = 0; i < words.length; i++) {{
+      cur.push(words[i]);
+      var w = words[i];
+      if (/[.!?]["'\\)]*$/.test(w)) {{
+        var next = words[i + 1] || '';
+        if (next === '' || /^[A-Z"'\\(]/.test(next)) {{
+          sentences.push(cur.join(' ').replace(/<DOT>/g, '.').trim());
+          cur = [];
+        }}
       }}
     }}
-  }}
-  if (cur.length) sentences.push(cur.join(' ').replace(/<DOT>/g, '.').trim());
-  return sentences.filter(function(s) {{ return s.length > 0; }});
+    if (cur.length) sentences.push(cur.join(' ').replace(/<DOT>/g, '.').trim());
+    return sentences.filter(function(s) {{ return s.length > 0; }});
 }}
 
-var sentences;
+var sentences = [];
 try {{
-  sentences = splitSentences(rawText);
-  if (!sentences || sentences.length === 0) sentences = [rawText];
+    sentences = splitSentences(rawText);
+    if (!sentences || sentences.length === 0) sentences = [rawText];
 }} catch(e) {{
-  sentences = [rawText];
+    sentences = [rawText];
 }}
 
-// ── 지문 렌더링 (문장 > 단어 span) ──────────
-// window.onload로 DOM 준비 보장 + null 박스 방어
 var _rendered = false;
 function renderPassage() {{
-  if (_rendered) return;
-  var box = document.getElementById('passage-box');
-  if (!box) return;          // DOM 아직 미준비 → 재시도 대기
-  _rendered = true;
+    if (_rendered) return;
+    var box = document.getElementById('passage-box');
+    if (!box) return;
+    _rendered = true;
 
-  try {{
-    box.innerHTML = '';
+    try {{
+        box.innerHTML = '';
+        sentences.forEach(function(sent, sIdx) {{
+            var sentEl = document.createElement('span');
+            sentEl.id = 'sent-{pid}-' + sIdx;
+            sentEl.className = 'sent-span';
 
-    sentences.forEach(function(sent, sIdx) {{
-      var sentEl = document.createElement('span');
-      sentEl.id = 'sent-{pid}-' + sIdx;
-      sentEl.className = 'sent-span';
+            var tokens = sent.split(/( +)/);
+            tokens.forEach(function(tok) {{
+                if (/^ +$/.test(tok)) {{
+                    sentEl.appendChild(document.createTextNode(tok));
+                }} else if (tok) {{
+                    var clean = tok.replace(/[^a-zA-Z'-]/g, '').toLowerCase();
+                    if (clean.length > 1) {{
+                        var w = document.createElement('span');
+                        w.className = 'word-span';
+                        w.textContent = tok;
+                        (function(word, el) {{
+                            el.addEventListener('click', function(e) {{
+                                e.stopPropagation();
+                                document.querySelectorAll('.word-selected').forEach(function(x) {{
+                                    x.classList.remove('word-selected');
+                                }});
+                                el.classList.add('word-selected');
+                                lookupWord(word);
+                            }});
+                        }})(clean, w);
+                        sentEl.appendChild(w);
+                    }} else {{
+                        sentEl.appendChild(document.createTextNode(tok));
+                    }}
+                }}
+            }});
 
-      // 단어 토큰화
-      var tokens = sent.split(/( +)/);
-      tokens.forEach(function(tok) {{
-        if (/^ +$/.test(tok)) {{
-          sentEl.appendChild(document.createTextNode(tok));
-        }} else if (tok) {{
-          var clean = tok.replace(/[^a-zA-Z'-]/g, '').toLowerCase();
-          if (clean.length > 1) {{
-            var w = document.createElement('span');
-            w.className = 'word-span';
-            w.textContent = tok;
-            (function(word, el) {{
-              el.addEventListener('click', function(e) {{
-                e.stopPropagation();
-                document.querySelectorAll('.word-selected').forEach(function(x) {{
-                  x.classList.remove('word-selected');
-                }});
-                el.classList.add('word-selected');
-                lookupWord(word);
-              }});
-            }})(clean, w);
-            sentEl.appendChild(w);
-          }} else {{
-            sentEl.appendChild(document.createTextNode(tok));
-          }}
-        }}
-      }});
-
-      (function(idx) {{
-        sentEl.addEventListener('click', function() {{ jumpTo(idx); }});
-      }})(sIdx);
-      box.appendChild(sentEl);
-      box.appendChild(document.createTextNode(' '));
-    }});
-  }} catch(e) {{
-    // box가 null이어도 안전하게 처리
-    var b = document.getElementById('passage-box');
-    if (b) b.innerHTML = '<div style="color:#ef4444;padding:12px">렌더링 오류: ' + e.message + '</div>';
-    else console.error('renderPassage error:', e.message);
-  }}
+            (function(idx) {{
+                sentEl.addEventListener('click', function() {{ jumpTo(idx); }});
+            }})(sIdx);
+            box.appendChild(sentEl);
+            box.appendChild(document.createTextNode(' '));
+        }});
+    }} catch(e) {{
+        box.innerHTML = '<div style="color:#ef4444;padding:12px">렌더링 오류: ' + e.message + '</div>';
+    }}
 }}
 
-// DOM 준비 즉시 실행 (스크립트 위치가 body 끝이면 이미 준비됨)
-renderPassage();
-// iframe srcdoc 환경 대비 이벤트 기반 재시도
-window.addEventListener('DOMContentLoaded', renderPassage);
-window.addEventListener('load', renderPassage);
-setTimeout(renderPassage, 100);
-setTimeout(renderPassage, 500);
+// 3. DOM 요소가 생성될 때까지 폴링 (이벤트 리스너 누락 방어)
+var initTimer = setInterval(function() {{
+    if (document.getElementById('passage-box')) {{
+        clearInterval(initTimer);
+        renderPassage();
+    }}
+}}, 50);
 
-// ── 단어 사전 검색 (dictionaryapi.dev) ───────
 function lookupWord(word) {{
-  currentWord = null; currentAudio = null;
-  document.getElementById('word-content').innerHTML =
-    '<div class="placeholder">🔍 검색 중...</div>';
+    currentWord = null; currentAudio = null;
+    document.getElementById('word-content').innerHTML = '<div class="placeholder">🔍 검색 중...</div>';
 
-  fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
-    .then(r => r.json())
-    .then(data => {{
-      if (!Array.isArray(data) || !data[0]) {{
-        document.getElementById('word-content').innerHTML =
-          '<div class="placeholder">❌ 단어를 찾을 수 없습니다.<br><small style="color:#cbd5e1">' + word + '</small></div>';
-        return;
-      }}
-      const entry   = data[0];
-      const phonetic = entry.phonetic || entry.phonetics?.find(p => p.text)?.text || '';
-      const audioUrl = entry.phonetics?.find(p => p.audio?.startsWith('http'))?.audio || null;
-      const meaning  = entry.meanings?.[0];
-      const pos      = meaning?.partOfSpeech || '';
-      const defObj   = meaning?.definitions?.[0];
-      const definition = defObj?.definition || '';
-      const example    = defObj?.example   || '';
+    fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word)
+        .then(function(r) {{ return r.json(); }})
+        .then(function(data) {{
+            if (!Array.isArray(data) || !data[0]) {{
+                document.getElementById('word-content').innerHTML =
+                    '<div class="placeholder">❌ 단어를 찾을 수 없습니다.<br><small style="color:#cbd5e1">' + word + '</small></div>';
+                return;
+            }}
+            var entry = data[0];
 
-      currentWord  = {{ word, phonetic, pos, definition }};
-      currentAudio = audioUrl;
+            // 4. 화살표 함수 및 옵셔널 체이닝(?.) 완전 제거 
+            // -> 다양한 기기 환경(예: 구버전 안드로이드 태블릿 등)에서의 문법 에러 원천 차단
+            var phonetics = entry.phonetics || [];
+            var phObj = phonetics.find(function(p) {{ return p.text; }}) || {{}};
+            var phonetic = entry.phonetic || phObj.text || '';
 
-      const already = vocab.some(v => v.word === word);
-      let html = '<div class="word-heading">' + entry.word + '</div>';
-      if (phonetic) {{
-        html += '<div class="word-phonetic">' + phonetic;
-        if (audioUrl) html += '<button class="audio-btn" onclick="playAudio()">🔊 듣기</button>';
-        html += '</div>';
-      }}
-      if (pos)        html += '<div><span class="pos-badge">' + pos + '</span></div>';
-      if (definition) html += '<div class="definition">' + definition + '</div>';
-      if (example)    html += '<div class="example">"' + example + '"</div>';
-      html += '<button class="add-btn" id="add-btn" onclick="addToVocab()"'
-           + (already ? ' disabled' : '') + '>'
-           + (already ? '✅ 단어장에 있음' : '+ 단어장에 추가') + '</button>';
+            var auObj = phonetics.find(function(p) {{ return p.audio && p.audio.indexOf('http') === 0; }}) || {{}};
+            var audioUrl = auObj.audio || null;
 
-      document.getElementById('word-content').innerHTML = html;
-    }})
-    .catch(() => {{
-      document.getElementById('word-content').innerHTML =
-        '<div class="placeholder">⚠️ 네트워크 오류가 발생했습니다.</div>';
-    }});
+            var meaning  = (entry.meanings && entry.meanings[0]) ? entry.meanings[0] : {{}};
+            var pos      = meaning.partOfSpeech || '';
+            var defObj   = (meaning.definitions && meaning.definitions[0]) ? meaning.definitions[0] : {{}};
+            var definition = defObj.definition || '';
+            var example    = defObj.example || '';
+
+            currentWord  = {{ word: word, phonetic: phonetic, pos: pos, definition: definition }};
+            currentAudio = audioUrl;
+
+            var already = vocab.some(function(v) {{ return v.word === word; }});
+            var html = '<div class="word-heading">' + entry.word + '</div>';
+            if (phonetic) {{
+                html += '<div class="word-phonetic">' + phonetic;
+                if (audioUrl) html += '<button class="audio-btn" onclick="playAudio()">🔊 듣기</button>';
+                html += '</div>';
+            }}
+            if (pos) html += '<div><span class="pos-badge">' + pos + '</span></div>';
+            if (definition) html += '<div class="definition">' + definition + '</div>';
+            if (example) html += '<div class="example">"' + example + '"</div>';
+            html += '<button class="add-btn" id="add-btn" onclick="addToVocab()"'
+                 + (already ? ' disabled' : '') + '>'
+                 + (already ? '✅ 단어장에 있음' : '+ 단어장에 추가') + '</button>';
+
+            document.getElementById('word-content').innerHTML = html;
+        }})
+        .catch(function() {{
+            document.getElementById('word-content').innerHTML =
+                '<div class="placeholder">⚠️ 네트워크 오류가 발생했습니다.</div>';
+        }});
 }}
 
 function playAudio() {{
-  if (currentAudio) new Audio(currentAudio).play().catch(()=>{{}});
+    if (currentAudio) new Audio(currentAudio).play().catch(function(){{}});
 }}
 
-// ── 단어장 ────────────────────────────────
 function saveVocab() {{
-  try {{ localStorage.setItem(SKEY, JSON.stringify(vocab)); }} catch(e) {{}}
+    try {{ localStorage.setItem(SKEY, JSON.stringify(vocab)); }} catch(e) {{}}
 }}
 
 function addToVocab() {{
-  if (!currentWord || vocab.some(v => v.word === currentWord.word)) return;
-  vocab.unshift(currentWord);
-  saveVocab(); renderVocab();
-  const btn = document.getElementById('add-btn');
-  if (btn) {{ btn.textContent = '✅ 단어장에 있음'; btn.disabled = true; }}
+    if (!currentWord || vocab.some(function(v) {{ return v.word === currentWord.word; }})) return;
+    vocab.unshift(currentWord);
+    saveVocab(); renderVocab();
+    var btn = document.getElementById('add-btn');
+    if (btn) {{ btn.textContent = '✅ 단어장에 있음'; btn.disabled = true; }}
 }}
 
 function deleteVocab(word) {{
-  vocab = vocab.filter(v => v.word !== word);
-  saveVocab(); renderVocab();
-  if (currentWord?.word === word) {{
-    const btn = document.getElementById('add-btn');
-    if (btn) {{ btn.textContent = '+ 단어장에 추가'; btn.disabled = false; }}
-  }}
+    vocab = vocab.filter(function(v) {{ return v.word !== word; }});
+    saveVocab(); renderVocab();
+    if (currentWord && currentWord.word === word) {{
+        var btn = document.getElementById('add-btn');
+        if (btn) {{ btn.textContent = '+ 단어장에 추가'; btn.disabled = false; }}
+    }}
 }}
 
 function clearVocab() {{
-  const btn = document.getElementById('clear-btn');
-  if (btn.dataset.confirm !== '1') {{
-    btn.textContent = '정말 삭제?'; btn.dataset.confirm = '1';
-    setTimeout(() => {{ btn.textContent = '전체 삭제'; btn.dataset.confirm = ''; }}, 3000);
-    return;
-  }}
-  vocab = []; saveVocab(); renderVocab();
-  btn.textContent = '전체 삭제'; btn.dataset.confirm = '';
+    var btn = document.getElementById('clear-btn');
+    if (btn.dataset.confirm !== '1') {{
+        btn.textContent = '정말 삭제?'; btn.dataset.confirm = '1';
+        setTimeout(function() {{ btn.textContent = '전체 삭제'; btn.dataset.confirm = ''; }}, 3000);
+        return;
+    }}
+    vocab = []; saveVocab(); renderVocab();
+    btn.textContent = '전체 삭제'; btn.dataset.confirm = '';
 }}
 
 function renderVocab() {{
-  document.getElementById('vocab-count').textContent = vocab.length;
-  const list = document.getElementById('vocab-list');
-  if (vocab.length === 0) {{
-    list.innerHTML = '<div class="empty-vocab">아직 추가된 단어가 없어요.<br>단어를 클릭해 추가해 보세요!</div>';
-    return;
-  }}
-  list.innerHTML = vocab.map(v =>
-    '<div class="vocab-item">' +
-      '<div style="flex:1;min-width:0">' +
-        '<div><span class="vocab-word">' + v.word + '</span>' +
-          (v.pos ? '<span class="vocab-pos">' + v.pos + '</span>' : '') + '</div>' +
-        (v.phonetic ? '<div class="vocab-ph">' + v.phonetic + '</div>' : '') +
-        (v.definition ? '<div class="vocab-def">' + v.definition.slice(0,55) + (v.definition.length>55?'…':'') + '</div>' : '') +
-      '</div>' +
-      '<button class="del-btn" onclick="deleteVocab(\'' + v.word + '\')">✕</button>' +
-    '</div>'
-  ).join('');
+    var countEl = document.getElementById('vocab-count');
+    if(countEl) countEl.textContent = vocab.length;
+    var list = document.getElementById('vocab-list');
+    if(!list) return;
+
+    if (vocab.length === 0) {{
+        list.innerHTML = '<div class="empty-vocab">아직 추가된 단어가 없어요.<br>단어를 클릭해 추가해 보세요!</div>';
+        return;
+    }}
+    list.innerHTML = vocab.map(function(v) {{
+        return '<div class="vocab-item">' +
+            '<div style="flex:1;min-width:0">' +
+            '<div><span class="vocab-word">' + v.word + '</span>' +
+            (v.pos ? '<span class="vocab-pos">' + v.pos + '</span>' : '') + '</div>' +
+            (v.phonetic ? '<div class="vocab-ph">' + v.phonetic + '</div>' : '') +
+            (v.definition ? '<div class="vocab-def">' + v.definition.slice(0,55) + (v.definition.length>55?'…':'') + '</div>' : '') +
+            '</div>' +
+            '<button class="del-btn" onclick="deleteVocab(\\'' + v.word + '\\')">✕</button>' +
+            '</div>';
+    }}).join('');
 }}
 
 renderVocab();
 
-// ── TTS ───────────────────────────────────
 function updateHighlight(idx, state) {{
-  sentences.forEach((_, i) => {{
-    const el = document.getElementById('sent-{pid}-' + i);
-    if (!el) return;
-    el.classList.remove('sent-active','sent-done');
-    if (i === idx && state === 'active') el.classList.add('sent-active');
-    if (i < idx  && state === 'active') el.classList.add('sent-done');
-  }});
+    sentences.forEach(function(_, i) {{
+        var el = document.getElementById('sent-{pid}-' + i);
+        if (!el) return;
+        el.classList.remove('sent-active','sent-done');
+        if (i === idx && state === 'active') el.classList.add('sent-active');
+        if (i < idx  && state === 'active') el.classList.add('sent-done');
+    }});
 }}
 
 function setStatus(msg) {{
-  document.getElementById('status-bar').textContent =
-    msg + (sentences.length > 0 ? '  (' + (currentIdx+1) + ' / ' + sentences.length + ')' : '');
+    var bar = document.getElementById('status-bar');
+    if(bar) bar.textContent = msg + (sentences.length > 0 ? '  (' + (currentIdx+1) + ' / ' + sentences.length + ')' : '');
 }}
 
 function scrollToSent(idx) {{
-  const el = document.getElementById('sent-{pid}-' + idx);
-  if (el) el.scrollIntoView({{behavior:'smooth',block:'nearest'}});
+    var el = document.getElementById('sent-{pid}-' + idx);
+    if (el) el.scrollIntoView({{behavior:'smooth',block:'nearest'}});
 }}
 
 function speakFrom(idx) {{
-  if (idx >= sentences.length) {{
-    isPlaying = false; isPaused = false;
-    updateHighlight(-1,'done');
-    document.getElementById('status-bar').textContent = '재생 완료 ✅  단어를 클릭해 의미를 확인해 보세요';
-    return;
-  }}
-  currentIdx = idx;
-  updateHighlight(idx,'active');
-  scrollToSent(idx);
-  setStatus('읽는 중');
+    if (idx >= sentences.length) {{
+        isPlaying = false; isPaused = false;
+        updateHighlight(-1,'done');
+        setStatus('재생 완료 ✅  단어를 클릭해 의미를 확인해 보세요');
+        return;
+    }}
+    currentIdx = idx;
+    updateHighlight(idx,'active');
+    scrollToSent(idx);
+    setStatus('읽는 중');
 
-  const utter = new SpeechSynthesisUtterance(sentences[idx]);
-  utter.lang = 'en-US';
-  utter.rate = parseFloat(document.getElementById('speed-sel').value);
-  const voices = window.speechSynthesis.getVoices();
-  const voice  = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google'))
-              || voices.find(v => v.lang.startsWith('en-US'))
-              || voices.find(v => v.lang.startsWith('en'));
-  if (voice) utter.voice = voice;
-  utter.onend  = () => {{ if (isPlaying && !isPaused) speakFrom(currentIdx+1); }};
-  utter.onerror= e  => {{ if (e.error !== 'interrupted') setStatus('오류: ' + e.error); }};
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
+    var utter = new SpeechSynthesisUtterance(sentences[idx]);
+    utter.lang = 'en-US';
+    var speedSel = document.getElementById('speed-sel');
+    if(speedSel) utter.rate = parseFloat(speedSel.value);
+
+    // 5. 브라우저별 TTS API 호환성 대응
+    try {{
+        var voices = window.speechSynthesis.getVoices() || [];
+        var voice  = voices.find(function(v) {{ return v.lang.startsWith('en') && v.name.includes('Google'); }})
+                  || voices.find(function(v) {{ return v.lang.startsWith('en-US'); }})
+                  || voices.find(function(v) {{ return v.lang.startsWith('en'); }});
+        if (voice) utter.voice = voice;
+    }} catch(e) {{ console.warn("TTS 설정 오류", e); }}
+
+    utter.onend  = function() {{ if (isPlaying && !isPaused) speakFrom(currentIdx+1); }};
+    utter.onerror= function(e) {{ if (e.error !== 'interrupted') setStatus('오류: ' + e.error); }};
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utter);
 }}
 
-function startTTS()    {{ window.speechSynthesis.cancel(); isPlaying=true; isPaused=false; speakFrom(currentIdx); }}
+function startTTS()    {{ if(window.speechSynthesis) window.speechSynthesis.cancel(); isPlaying=true; isPaused=false; speakFrom(currentIdx); }}
 function togglePause() {{
-  if (!isPlaying) {{ startTTS(); return; }}
-  if (isPaused) {{ isPaused=false; window.speechSynthesis.resume(); setStatus('재생 재개'); }}
-  else          {{ isPaused=true;  window.speechSynthesis.pause();  setStatus('일시 정지 ⏸'); }}
+    if (!isPlaying) {{ startTTS(); return; }}
+    if (!window.speechSynthesis) return;
+    if (isPaused) {{ isPaused=false; window.speechSynthesis.resume(); setStatus('재생 재개'); }}
+    else          {{ isPaused=true;  window.speechSynthesis.pause();  setStatus('일시 정지 ⏸'); }}
 }}
 function stopTTS() {{
-  isPlaying=false; isPaused=false;
-  window.speechSynthesis.cancel();
-  updateHighlight(-1,'done'); currentIdx=0;
-  document.getElementById('status-bar').textContent = '정지됨 | 단어를 클릭하면 의미를 확인할 수 있어요';
+    isPlaying=false; isPaused=false;
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    updateHighlight(-1,'done'); currentIdx=0;
+    setStatus('정지됨 | 단어를 클릭하면 의미를 확인할 수 있어요');
 }}
 function jumpTo(idx) {{
-  window.speechSynthesis.cancel(); currentIdx=idx;
-  if (isPlaying) speakFrom(idx);
-  else {{ updateHighlight(idx,'active'); setStatus('문장 선택됨 — 재생 버튼을 누르세요'); }}
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+    currentIdx=idx;
+    if (isPlaying) speakFrom(idx);
+    else {{ updateHighlight(idx,'active'); setStatus('문장 선택됨 — 재생 버튼을 누르세요'); }}
 }}
 function moveSent(delta) {{
-  const next = Math.max(0, Math.min(sentences.length-1, currentIdx+delta));
-  jumpTo(next); if (isPlaying) speakFrom(next);
+    var next = Math.max(0, Math.min(sentences.length-1, currentIdx+delta));
+    jumpTo(next); if (isPlaying) speakFrom(next);
 }}
 
-document.getElementById('speed-sel').addEventListener('change', () => {{
-  if (isPlaying && !isPaused) {{ window.speechSynthesis.cancel(); speakFrom(currentIdx); }}
-}});
-if (window.speechSynthesis.onvoiceschanged !== undefined) window.speechSynthesis.onvoiceschanged = ()=>{{}};
-window.speechSynthesis.getVoices();
+var sSel = document.getElementById('speed-sel');
+if(sSel) {{
+    sSel.addEventListener('change', function() {{
+        if (isPlaying && !isPaused) {{ window.speechSynthesis.cancel(); speakFrom(currentIdx); }}
+    }});
+}}
+
+if (window.speechSynthesis) {{
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {{
+        window.speechSynthesis.onvoiceschanged = function() {{}};
+    }}
+    window.speechSynthesis.getVoices();
+}}
 </script>
 </body>
 </html>
