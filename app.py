@@ -10,7 +10,7 @@ from google.generativeai.types import GenerationConfig
 # ── AI 설정 ──────────────────────────────────────────────
 genai.configure(api_key=st.secrets.get("GOOGLE_API_KEY", ""))
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash-latest",
+    model_name="gemini-2.0-flash-lite",
     generation_config=GenerationConfig(
         max_output_tokens=800,
         temperature=0.7,
