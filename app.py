@@ -20,7 +20,7 @@ def load_passages():
         category = os.path.basename(file_path).replace(".csv", "")
 
         with open(file_path, "r", encoding="utf-8-sig") as f:
-            reader = csv.DictReader(f, delimiter="\t")  # 탭 구분자
+            reader = csv.DictReader(f, delimiter=",")  # 탭 구분자
             for row in reader:
                 if not row.get("지문", "").strip():
                     continue  # 빈 행 건너뜀
