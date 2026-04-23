@@ -663,6 +663,16 @@ function speakFrom(idx) {{
         setStatus('재생 완료 ✅  단어를 클릭해 의미를 확인해 보세요');
         return;
     }}
+    
+    // 🚀 [추가된 부분] TTS 객체가 아예 존재하지 않는 브라우저(인앱 등)를 위한 방어 코드
+    if (typeof SpeechSynthesisUtterance === 'undefined' || typeof window.speechSynthesis === 'undefined') {{
+        alert("현재 접속하신 브라우저(카카오톡 등)에서는 음성 읽기(TTS) 기능을 지원하지 않습니다.\\n화면 우측 하단 탭을 눌러 '다른 브라우저로 열기(크롬/사파리)'를 이용해 주세요!");
+        setStatus("오류: 음성 읽기 미지원 브라우저 ❌");
+        isPlaying = false;
+        isPaused = false;
+        return;
+    }}
+
     currentIdx = idx;
     updateHighlight(idx,'active');
     scrollToSent(idx);
@@ -730,7 +740,6 @@ if (window.speechSynthesis) {{
 </html>
 """
     components.html(html_code, height=800, scrolling=True)
-
 
 # ── 5-2. 유튜브 영상 추천 ─────────────────────────────────
 def render_youtube_tab(p):
