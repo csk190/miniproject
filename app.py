@@ -208,7 +208,7 @@ def render_tts_player(passage_text, player_id):
 <meta charset="utf-8">
 <style>
 * {{ box-sizing:border-box; margin:0; padding:0; }}
-body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidden; }}
+body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow-y:auto; }}
 
 .layout {{ display:flex; gap:14px; height:630px; }}
 
@@ -334,6 +334,34 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
 .empty-vocab {{
   color:#94a3b8; font-size:0.8rem; text-align:center; padding:24px 0; line-height:1.8;
 }}
+
+/* 📱 모바일 화면 대응 (너비 768px 이하일 때 세로 배치) */
+@media screen and (max-width: 768px) {{
+  .layout {{
+    flex-direction: column;
+    height: auto;
+    padding-bottom: 20px;
+  }}
+  .left-panel {{
+    width: 100%;
+    flex: none;
+    height: 50vh;
+    min-height: 350px;
+  }}
+  .right-panel {{
+    width: 100%;
+    flex: none;
+    height: 50vh;
+    min-height: 400px;
+  }}
+  .tts-controls {{
+    justify-content: center;
+  }}
+  #passage-box {{
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }}
+}}
 </style>
 </head>
 <body>
@@ -384,7 +412,6 @@ body {{ font-family:'Segoe UI',sans-serif; background:transparent; overflow:hidd
 </div>
 
 <script>
-// 1. 전역 에러 핸들러: 조용한 실패(Silent Fail)를 방지하고 화면에 원인 출력
 window.onerror = function(msg, url, line, col, error) {{
     var box = document.getElementById('passage-box');
     if (box) box.innerHTML = '<div style="color:#ef4444; padding:16px; background:#fee2e2; border-radius:8px;">⚠️ <b>스크립트 오류가 발생했습니다.</b><br>' + msg + '</div>';
@@ -395,7 +422,6 @@ const SKEY = 'ai_vocab_{pid}';
 const rawText = {passage_json};
 let vocab = [];
 
-// 2. iframe 샌드박스에서 localStorage 접근이 차단될 경우를 완벽 방어
 try {{
     vocab = JSON.parse(localStorage.getItem(SKEY) || '[]');
 }} catch(e) {{
@@ -490,7 +516,6 @@ function renderPassage() {{
     }}
 }}
 
-// 3. DOM 요소가 생성될 때까지 폴링 (이벤트 리스너 누락 방어)
 var initTimer = setInterval(function() {{
     if (document.getElementById('passage-box')) {{
         clearInterval(initTimer);
@@ -512,8 +537,6 @@ function lookupWord(word) {{
             }}
             var entry = data[0];
 
-            // 4. 화살표 함수 및 옵셔널 체이닝(?.) 완전 제거 
-            // -> 다양한 기기 환경(예: 구버전 안드로이드 태블릿 등)에서의 문법 에러 원천 차단
             var phonetics = entry.phonetics || [];
             var phObj = phonetics.find(function(p) {{ return p.text; }}) || {{}};
             var phonetic = entry.phonetic || phObj.text || '';
@@ -650,7 +673,6 @@ function speakFrom(idx) {{
     var speedSel = document.getElementById('speed-sel');
     if(speedSel) utter.rate = parseFloat(speedSel.value);
 
-    // 5. 브라우저별 TTS API 호환성 대응
     try {{
         var voices = window.speechSynthesis.getVoices() || [];
         var voice  = voices.find(function(v) {{ return v.lang.startsWith('en') && v.name.includes('Google'); }})
@@ -707,7 +729,7 @@ if (window.speechSynthesis) {{
 </body>
 </html>
 """
-    components.html(html_code, height=660, scrolling=False)
+    components.html(html_code, height=800, scrolling=True)
 
 
 # ── 5-2. 유튜브 영상 추천 ─────────────────────────────────
@@ -763,7 +785,7 @@ def render_youtube_tab(p):
 
     with col_reset:
         if st.session_state[ykey] and st.button("🔄 다시 추천", key=f"yt_reset_{p['id']}",
-                                                  use_container_width=True):
+                                                use_container_width=True):
             st.session_state[ykey] = None
             st.rerun()
 
