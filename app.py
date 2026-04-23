@@ -425,8 +425,6 @@ def show_list(passages):
 def main():
     debug_csv()   # ← 추가
     init_state()
-    ...
-    init_state()
     data = load_passages()
 
     if not data:
