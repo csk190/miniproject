@@ -6,11 +6,35 @@ import os
 # 1. 데이터 로드 (캐싱 적용)
 @st.cache_data
 def load_passages():
-    file_path = "data/passages.json"
-    if os.path.exists(file_path):
-        with open(file_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
+    import glob
+    import csv
+
+    passages = []
+    pid = 1
+
+    # data/ 폴더의 모든 CSV 파일 읽기
+    csv_files = sorted(glob.glob("data/*.csv"))
+
+    for file_path in csv_files:
+        # 파일명에서 카테고리 추출 (확장자 제거)
+        category = os.path.basename(file_path).replace(".csv", "")
+
+        with open(file_path, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f, delimiter="\t")  # 탭 구분자
+            for row in reader:
+                if not row.get("지문", "").strip():
+                    continue  # 빈 행 건너뜀
+                passages.append({
+                    "id": pid,
+                    "category": category,
+                    "passage":    row.get("지문", "").strip(),
+                    "vocabulary": row.get("어휘", "").strip(),
+                    "question":   row.get("문제", "").strip(),
+                    "grammar":    row.get("문법", "").strip(),
+                })
+                pid += 1
+
+    return passages
 
 # 2. 상태 관리 초기화
 def init_state():
@@ -76,10 +100,11 @@ def show_list(passages):
 def main():
     init_state()
     data = load_passages()
-    
+
     if not data:
-        st.error("data/passages.json 파일을 찾을 수 없습니다.")
+        st.error("data/ 폴더에서 CSV 파일을 찾을 수 없습니다.")  # ← 메시지 수정
         return
+    ...
 
     if st.session_state.current_page == 'list':
         show_list(data)
