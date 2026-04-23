@@ -7,7 +7,7 @@ import google.generativeai as genai
 
 # ── AI 설정 ──────────────────────────────────────────────
 genai.configure(api_key=st.secrets.get("GOOGLE_API_KEY", ""))
-model = genai.GenerativeModel(model_name="gemini-2.0-flash")
+model = genai.GenerativeModel(model_name="gemini-2.5-flash-preview-05-20")
 
 # ── 페이지 설정 ──────────────────────────────────────────
 st.set_page_config(
