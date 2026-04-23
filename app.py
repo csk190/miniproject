@@ -419,6 +419,16 @@ def show_list(passages):
 
 # ── 8. 메인 ──────────────────────────────────────────────
 def main():
+    # 임시 디버그 - 사용 가능한 모델 확인
+    if st.button("사용 가능한 모델 목록 확인"):
+        for m in genai.list_models():
+            if "generateContent" in m.supported_generation_methods:
+                st.write(m.name)
+    
+    init_state()
+    ...
+
+def main():
     init_state()
     data = load_passages()
 
