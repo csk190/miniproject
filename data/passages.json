@@ -1,82 +1,66 @@
 [
   {
     "id": 1,
-    "category": "의학, 건강, 영양, 식품",
-    "passage": "Honey can be eaten by itself or mixed with other ingredients. Natural or pure honey has had no additives, preservatives or synthetic ingredients added. Also ① referred to as ‘undiluted’, it is usually more expensive than diluted honeys. Natural honey can also be called ‘blended honey’, ② which honeys from various sources are blended together — not by the bees, but by human processors and distributors in stages after the honey has been collected.",
-    "vocabulary": "ingredient (특히 요리 등의) 재료\nadditive 첨가물\npreservative 방부제\nsynthetic 합성의\nblended 혼합된\nuniform 균일한",
-    "question": "다음 글의 밑줄 친 부분 중, 어법상 틀린 것은?\n정답: ②",
-    "grammar": "■ [Also referred to as ‘undiluted’], it is usually more expensive than diluted honeys.\n[ ]는 문장의 주어인 it을 부가적으로 설명하는 분사구문이다."
+    "category": "심리",
+    "passage": "People often assume that the best way to motivate others is through rewards and punishments. However, research in psychology suggests that intrinsic motivation — the drive that comes from within — is far more powerful and sustainable. When people are given autonomy over their work and feel a sense of purpose, they tend to perform better and experience greater satisfaction. External rewards can sometimes undermine this intrinsic motivation, a phenomenon known as the 'overjustification effect.'",
+    "vocabulary": "assume: 가정하다\nmotivate: 동기를 부여하다\nintrinsic: 내재적인\nsustainable: 지속 가능한\nautomy: 자율성\noverjustification: 과잉 정당화",
+    "question": "[주제 파악] 이 글의 주제로 가장 적절한 것은?\n① 외적 보상의 중요성\n② 내재적 동기의 우월성\n③ 처벌의 교육적 효과\n④ 자율성과 창의성의 관계\n⑤ 심리학 연구의 한계\n\n정답: ②",
+    "grammar": "① 'the drive that comes from within' → 관계대명사 that이 이끄는 절이 the drive를 수식\n② 'When people are given autonomy' → 수동태 + 부사절\n③ 'a phenomenon known as' → 과거분사구가 명사를 후위 수식"
   },
   {
     "id": 2,
-    "category": "정치, 경제, 사회, 법",
-    "passage": "When gathering the preferences of multiple agents into one collective choice, it is easily seen that certain cases ______. For example, if there are two alternatives, a and b, and two agents such that one prefers a and the other one b, there is no deterministic way of selecting a single alternative without violating one of two basic fairness conditions known as anonymity and neutrality.",
-    "vocabulary": "preference 선호(도)\nmultiple 다수[복수]의\ncollective 집단적인, 공동의\nalternative 대안\nviolate 위반하다, 어기다\nanonymity 익명성\nimpartiality 공정, 공평",
-    "question": "다음 빈칸에 들어갈 말로 가장 적절한 것은?\n정답: ① call for randomization or other means of tiebreaking",
-    "grammar": "■ For example, [if there are two alternatives, a and b, and two agents such that one prefers a and the other one b], there is no deterministic way of selecting a single alternative [without violating one of two basic fairness conditions {known as anonymity and neutrality}]."
+    "category": "심리",
+    "passage": "Confirmation bias refers to the tendency to search for, interpret, and recall information in a way that confirms one's preexisting beliefs. This cognitive bias leads people to favor information that confirms their assumptions and give less attention to information that contradicts them. Social media algorithms have amplified this effect by showing users content that aligns with their existing views, creating so-called 'echo chambers' where diverse perspectives are rarely encountered.",
+    "vocabulary": "confirmation bias: 확증 편향\ninterpret: 해석하다\npreexisting: 기존의\ncognitive: 인지적인\namplify: 증폭시키다\necho chamber: 반향실(편향된 정보 환경)",
+    "question": "[빈칸 추론] 'echo chambers'가 의미하는 것은?\n① 다양한 의견이 공유되는 공간\n② 자신의 견해만 강화되는 정보 환경\n③ 알고리즘이 작동하지 않는 공간\n④ 새로운 아이디어가 생성되는 환경\n⑤ 소셜 미디어의 긍정적 기능\n\n정답: ②",
+    "grammar": "① 'the tendency to search for, interpret, and recall' → to부정사의 병렬 구조\n② 'information that confirms their assumptions' → 관계대명사 that절\n③ 'where diverse perspectives are rarely encountered' → 관계부사 where절"
   },
   {
     "id": 3,
-    "category": "심리, 대인 관계",
-    "passage": "One reason that people participate in social media is because it builds social relations. We increase our social capital when we successfully engage in social media. Social capital describes the networks of relationships we have that are built on mutuality and sharing of identity, understanding, norms and values.",
-    "vocabulary": "social capital 사회적 자본\nmutuality 상호성\nidentity 정체성\nnorms 규범\ntie 유대\njob lead 일자리 정보",
-    "question": "다음 글의 요지로 가장 적절한 것은?\n정답: ① 소셜 미디어를 통한 관계망의 확장은 중요한 사회적 자본이 된다.",
-    "grammar": "■ One reason [that people participate in social media] is because it builds social relations.\n[ ]는 One reason을 수식하는 관계절이고, is는 술어 동사이다."
+    "category": "환경",
+    "passage": "The phenomenon of 'green deserts' has drawn increasing attention from ecologists. Monoculture forests — vast areas planted with a single species of tree — may appear lush and productive, but they support far fewer species of birds, insects, and plants than natural mixed forests. While they grow faster and are easier to harvest, their lack of biodiversity makes them highly vulnerable to disease and pest outbreaks. A single pathogen can devastate an entire plantation in ways that would be impossible in a diverse ecosystem.",
+    "vocabulary": "monoculture: 단일 경작\nlush: 무성한\nbiodiversity: 생물 다양성\nvulnerable: 취약한\npathogen: 병원균\ndevstate: 황폐화하다\nplantation: 농장, 조림지",
+    "question": "[제목 파악] 이 글의 제목으로 가장 적절한 것은?\n① The Economic Benefits of Monoculture Forests\n② Why Biodiversity Matters in Forest Ecosystems\n③ How Pathogens Spread in Natural Forests\n④ The Role of Birds in Forest Recovery\n⑤ Comparing Growth Rates of Different Tree Species\n\n정답: ②",
+    "grammar": "① 'planted with a single species' → 과거분사구 후위 수식\n② 'While they grow faster and are easier to harvest' → 양보/대조의 부사절\n③ 'in ways that would be impossible' → 관계대명사 that + 가정법"
   },
   {
     "id": 4,
-    "category": "컴퓨터, 인터넷, 정보, 미디어, 교통",
-    "passage": "Information and meaning are, clearly, not the same thing. The former refers to uninterpreted data or sensory states whose probability in a certain situation can be easily measured; the latter refers to the interpretation of the data or sensory states, including the special kinds of nuances and values that the information entails, or is intended to have, in the given situation.",
-    "vocabulary": "refer to ~을 가리키다, ~을 의미하다\nsensory 감각의\nprobability 확률\nentail 수반하다\nstatement 진술(문)\nin a row 연속으로",
-    "question": "다음 글의 요지로 가장 적절한 것은?\n정답: ① 우리는 정보를 해석함으로써 의미를 만들어 낸다.",
-    "grammar": "■ The former refers to uninterpreted data or sensory states [whose probability in a certain situation can be easily measured]; the latter refers to the interpretation of the data or sensory states..."
+    "category": "환경",
+    "passage": "Ocean acidification is one of the lesser-known consequences of rising carbon dioxide levels. When CO₂ dissolves in seawater, it forms carbonic acid, lowering the ocean's pH. This change threatens marine organisms that rely on calcium carbonate to build their shells and skeletons, such as corals, oysters, and certain plankton species. As these foundational species decline, entire food webs can collapse, with far-reaching consequences for both marine ecosystems and the billions of people who depend on the ocean for food.",
+    "vocabulary": "acidification: 산성화\nconsequence: 결과\ncarbonic acid: 탄산\ncalcium carbonate: 탄산칼슘\nfoundational: 근본적인\nfood web: 먹이 그물",
+    "question": "[순서 배열] 이 글에서 인과관계의 순서로 올바른 것은?\n① CO₂ 증가 → 해양 산성화 → 해양 생물 감소 → 식량 위기\n② 해양 산성화 → CO₂ 증가 → 식량 위기 → 생태계 붕괴\n③ 식량 위기 → CO₂ 증가 → 해양 산성화 → 생물 감소\n④ 해양 생물 감소 → 탄산 형성 → CO₂ 증가 → 산성화\n⑤ CO₂ 증가 → 탄산 형성 → 식량 위기 → 산성화\n\n정답: ①",
+    "grammar": "① 'lowering the ocean's pH' → 분사구문 (결과)\n② 'that rely on calcium carbonate to build' → 관계대명사 that + to부정사\n③ 'the billions of people who depend on the ocean' → 관계대명사 who절"
   },
   {
     "id": 5,
-    "category": "언어, 문학, 예술",
-    "passage": "In most fiction, characters’ lives are limited to the individual work. Readers may disagree on the characteristics and traits of fictional figures, and in drama there is room for different interpretations of characters. However, it is less common for characters in literary fiction to reappear in subsequent works than in genre fiction, where series featuring the same central characters are common.",
-    "vocabulary": "fiction 소설\ncharacteristic 특징, 성격\ntrait 특성\nsubsequent 후속의, 그다음의\npronounced 확연한",
-    "question": "다음 글의 내용을 한 문장으로 요약하고자 한다. 빈칸 (A), (B)에 들어갈 말로 가장 적절한 것은?\n정답: ④ feature …… transformation",
-    "grammar": "■ However, it is less common [for characters in literary fiction to reappear in subsequent works] than in genre fiction, [where series {featuring the same central characters} are common]."
+    "category": "기술",
+    "passage": "Artificial intelligence systems are increasingly being used to make decisions in high-stakes domains such as criminal justice, hiring, and medical diagnosis. While these systems can process vast amounts of data quickly, they are not immune to bias. If the data used to train an AI reflects historical inequalities, the system will likely reproduce and even amplify those inequalities. This has led researchers to call for greater transparency in how AI systems are designed and evaluated, as well as mechanisms for human oversight.",
+    "vocabulary": "high-stakes: 중요한, 위험성이 높은\nimmune: 면역의, 영향을 받지 않는\ninequality: 불평등\ntransparency: 투명성\noversiight: 감독, 관리\namplify: 증폭시키다",
+    "question": "[요지 파악] 이 글의 요지로 가장 적절한 것은?\n① AI는 인간보다 더 공정한 결정을 내린다\n② AI 시스템의 편향 문제와 감독의 필요성\n③ 빅데이터는 AI의 정확성을 항상 높인다\n④ AI는 의료 분야에만 활용되어야 한다\n⑤ 역사적 데이터는 미래 예측에 적합하다\n\n정답: ②",
+    "grammar": "① 'being used to make decisions' → 수동태 진행형\n② 'If the data used to train an AI reflects' → 과거분사 후위 수식 + 조건절\n③ 'how AI systems are designed and evaluated' → 간접의문문 (명사절)"
   },
   {
     "id": 6,
-    "category": "교육, 학교, 진로",
-    "passage": "The purpose of class discussions is to encourage you to be an active participant, not a passive recorder. Much of the emphasis in a discussion is on getting students involved in thinking, reacting, and responding. These are important intellectual activities in the learning process, for through them you are supposed to discover and express your opinions.",
-    "vocabulary": "passive 수동적인\nadmittedly 인정하건대\nalert 정신이 초롱초롱한\nemphasis 강조점, 강조\ninvaluable 매우 귀중한\ntake notes 메모하다, 필기하다",
-    "question": "다음 글의 주제로 가장 적절한 것은?\n정답: ③ significance of note taking for active engagement in discussion",
-    "grammar": "■ Admittedly, it is considerably more difficult [to take notes from discussions than from lectures], [for, unlike lectures, discussions tend to be {disorganized} and {difficult to follow}]."
+    "category": "기술",
+    "passage": "The concept of the 'digital divide' initially referred to the gap between those who had access to computers and the internet and those who did not. Today, the term has evolved to describe more nuanced inequalities: differences in the quality of access, digital literacy, and the ability to benefit meaningfully from online resources. Even in countries with near-universal internet access, significant disparities exist between groups in how effectively they can use technology to improve their lives.",
+    "vocabulary": "digital divide: 디지털 격차\nnuanced: 미묘한 차이가 있는\nliteracy: 문해력, 능력\ndisparity: 불균형, 격차\nmeaningfully: 의미 있게\nnear-universal: 거의 보편적인",
+    "question": "[어휘] 밑줄 친 'nuanced'의 의미로 가장 적절한 것은?\n① 명확한\n② 단순한\n③ 미묘하고 복잡한\n④ 논란이 많은\n⑤ 기술적인\n\n정답: ③",
+    "grammar": "① 'those who had access' → 관계대명사 who (those = people)\n② 'has evolved to describe' → 현재완료 + to부정사\n③ 'how effectively they can use technology' → 간접의문문"
   },
   {
     "id": 7,
-    "category": "스포츠, 레저, 취미, 여행",
-    "passage": "The shoreline was known for having the best fishing spots on the lake. Jessie was sitting at one of those spots, but her fishing line still hadn’t moved an inch. With a deep sigh, Jessie pulled out the line and cast it back into the water. Her dream of catching a big fish was fading.",
-    "vocabulary": "shoreline 호숫가, 해안가\nfishing line 낚싯줄\nsigh 한숨\ncast 던지다\nfade (점점) 사라지다\ntense 팽팽한, 긴장된",
-    "question": "다음 글에 드러난 Jessie의 심경 변화로 가장 적절한 것은?\n정답: ① disappointed → thrilled",
-    "grammar": "■ With a deep sigh, Jessie [pulled out the line] and [cast it back into the water].\n두 개의 [ ]는 and로 연결되어 문장의 술어 역할을 한다."
+    "category": "사회",
+    "passage": "The concept of 'social capital' refers to the networks of relationships among people in a society that enable it to function effectively. When communities have high levels of trust, reciprocity, and cooperation, they are better able to solve collective problems and support vulnerable members. However, social capital is not always a positive force: tight-knit groups can also reinforce exclusion and discrimination against outsiders, suggesting that the quality of social connections matters as much as their quantity.",
+    "vocabulary": "social capital: 사회적 자본\nreciprocity: 상호주의\ncooperation: 협력\ncollective: 집단적인\ntight-knit: 결속력 있는\nexclusion: 배제\ndiscrimination: 차별",
+    "question": "[주장 파악] 필자가 주장하는 바로 가장 적절한 것은?\n① 사회적 자본은 항상 긍정적인 효과를 낳는다\n② 신뢰와 협력은 사회 문제 해결의 핵심이다\n③ 사회적 연결의 양보다 질이 더 중요하다\n④ 배타적 집단은 해체되어야 한다\n⑤ 사회적 자본은 측정이 불가능하다\n\n정답: ③",
+    "grammar": "① 'networks of relationships among people ... that enable it to function' → 관계대명사 that (선행사: networks)\n② 'suggesting that the quality ... matters' → 분사구문 (앞 문장 전체를 의미상 주어로)\n③ 'as much as their quantity' → as ~ as 동등 비교"
   },
   {
     "id": 8,
-    "category": "물리, 화학, 생명과학, 지구과학",
-    "passage": "A good example of chaos is the magnetic pendulum sold as an executive toy. It has four magnets arranged in a square at the base and a pendulum that swings back and forth between them. In order to produce chaos, the iteration has to be within what is called a nonlinear system.",
-    "vocabulary": "magnetic pendulum 자기 진자\nexecutive 사무실(용)의\nback and forth 앞뒤로\nfashion 방식\nnonlinear 비선형의",
-    "question": "주어진 글 다음에 이어질 글의 순서로 가장 적절한 것은?\n정답: ① (A) － (C) － (B)",
-    "grammar": "■ It has four magnets [arranged in a square at the base] and a pendulum [that swings back and forth between them].\n첫 번째 [ ]는 four magnets를 수식하는 분사구이고, 두 번째 [ ]는 a pendulum을 수식하는 관계절이다."
-  },
-  {
-    "id": 9,
-    "category": "환경, 자원, 재활용",
-    "passage": "What is soft-path river engineering? One way to visualize its spirit is to liken it to a footpath in the forest. Suppose a tree falls across a footpath. A soft-path response would be simply to redirect the trail around the fallen tree. A more interventionist response would be to ① remove the tree and restore the original route.",
-    "vocabulary": "visualize 시각화하다\ntrail 오솔길\nliken 비유하다\nfootpath 오솔길\ninterventionist 개입주의적인\nrestore 복구하다",
-    "question": "다음 글의 밑줄 친 부분 중, 문맥상 낱말의 쓰임이 적절하지 않은 것은?\n정답: ⑤ insignificant",
-    "grammar": "■ The true high-modernist step would, of course, be [to create a superhighway {that removes the landscape and bulldozes straight through all obstacles in the topography}]."
-  },
-  {
-    "id": 10,
-    "category": "철학, 종교, 역사, 풍습, 지리",
-    "passage": "One word is inextricably associated with geography: where. That is because geography starts from the premise that it matters where something takes place on Earth’s surface. The key questions are not simply “where” questions, though; they are “why there” and “so what” questions.",
-    "vocabulary": "spatial 공간의, 공간적인\narrangement 배열\nvariation 차이\nappreciation 이해\nawareness 인식",
-    "question": "다음 빈칸에 들어갈 말로 가장 적절한 것은?\n정답: ② how phenomena are arranged on Earth’s surface",
-    "grammar": "■ That is because geography starts from the premise [that it matters {where something takes place on Earth’s surface}]."
+    "category": "사회",
+    "passage": "Urbanization is accelerating globally, with more than half of the world's population now living in cities. This shift brings both opportunities and challenges. Cities offer access to jobs, education, and healthcare that rural areas often lack. Yet rapid urban growth, especially in developing countries, can outpace infrastructure development, leading to overcrowding, pollution, and inadequate housing. How cities are planned and governed will play a decisive role in determining whether urbanization becomes a path to prosperity or inequality.",
+    "vocabulary": "urbanization: 도시화\naccelerate: 가속화하다\noutpace: 앞지르다\ninfrastructure: 기반 시설\novercrowding: 과밀\ninadequate: 불충분한\ngovernment: 거버넌스, 통치",
+    "question": "[빈칸] 빈칸에 들어갈 말로 가장 적절한 것은?\n'How cities are planned and governed will play a decisive role in determining whether urbanization becomes a path to _______ or inequality.'\n① conflict\n② prosperity\n③ tradition\n④ isolation\n⑤ education\n\n정답: ②",
+    "grammar": "① 'with more than half of the world's population now living in cities' → with 분사구문 (부대상황)\n② 'that rural areas often lack' → 관계대명사 that (선행사: jobs, education, and healthcare)\n③ 'whether urbanization becomes' → 명사절 (whether + 주어 + 동사)"
   }
 ]
