@@ -1,4 +1,4 @@
-mport streamlit as st
+import streamlit as st
 
 # url = "https://github.com/csk190/miniproject/blob/main/images/Gemini_Generated_Image_q5723kq5723kq572.png"
 
