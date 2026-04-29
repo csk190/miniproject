@@ -23,7 +23,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 3. 타이틀 없이 바로 탭 구성 (중복 제목 방지)
-tab1, tab2 = st.tabs(["📂 Customized AI English Learning", "🌟 Try Best"])
+tab1, tab2 = st.tabs(["📂 Edulingo", "🌟 Try Best"])
 
 # --- Tab 1: Mini Project ---
 with tab1:
