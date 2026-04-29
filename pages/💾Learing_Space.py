@@ -29,7 +29,7 @@ tab1, tab2 = st.tabs(["📂 Mini Project", "🌟 Try Best"])
 with tab1:
     components.html(
         f"""
-        <iframe src="https://ai-32567807273.us-west1.run.app/https://ai-32567807273.us-west1.run.app/" 
+        <iframe src="https://ai-32567807273.us-west1.run.app/" 
                 width="100%" height="1000px" frameborder="0" scrolling="yes"></iframe>
         """,
         height=1000,
